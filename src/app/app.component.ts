@@ -1,0 +1,34 @@
+import { AfterViewInit, Component, computed, OnInit, signal } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { DrawerComponent } from './shared/components/drawer/drawer.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSidenavModule } from '@angular/material/sidenav';
+
+@Component({
+  selector: 'app-root',
+  imports: [
+    RouterOutlet, 
+    CommonModule, 
+    MatToolbarModule, 
+    MatButtonModule, 
+    MatIconModule,
+    MatSidenavModule,
+    DrawerComponent,
+  ],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.scss'
+})
+export class AppComponent implements AfterViewInit {
+  collapsed = signal(false)
+  drawerWidth = computed(() => this.collapsed() ? '65px' : '250px');
+  isLoading = true;
+
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 200);
+  }
+}

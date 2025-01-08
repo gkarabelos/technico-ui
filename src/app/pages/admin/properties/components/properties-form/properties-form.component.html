@@ -1,0 +1,57 @@
+<h1 class="form-title">{{ mode === 'create' ? 'Add Property' : 'Update Property' }}</h1>
+
+<form [formGroup]="createPropertyForm" (ngSubmit)="submitForm()">
+  <div class="row">
+    <mat-form-field class="form-field">
+      <mat-label>Property ID</mat-label>
+      <input matInput placeholder="Enter property id" formControlName="propertyId" />
+      <mat-error *ngIf="createPropertyForm.get('propertyId')?.hasError('required')">
+        Property ID is required
+      </mat-error>
+    </mat-form-field>
+  
+    <mat-form-field class="form-field">
+      <mat-label>Property Address</mat-label>
+      <input matInput placeholder="Enter property address" formControlName="address" />
+      <mat-error *ngIf="createPropertyForm.get('address')?.hasError('required')">
+        Property Address is required
+      </mat-error>
+    </mat-form-field>
+  
+    <mat-form-field class="form-field">
+      <mat-label>Year of Construction</mat-label>
+      <input matInput type="number" placeholder="Enter year of construction" formControlName="yearOfConstruction" [max]="currentYear" />
+      <mat-error *ngIf="createPropertyForm.get('yearOfConstruction')?.hasError('required')">
+        Year of Construction is required
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="row">
+    <mat-form-field class="form-field">
+      <mat-label>Property Type</mat-label>
+      <mat-select formControlName="type">
+        <mat-option value="DetachedHouse">Detached House</mat-option>
+        <mat-option value="Maisonet">Maisonet</mat-option>
+        <mat-option value="ApartmentBuilding">Apartment Building</mat-option>
+      </mat-select>
+      <mat-error *ngIf="createPropertyForm.get('type')?.hasError('required')">
+        Property Type is required
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="form-field">
+      <mat-label>Owner's VAT Number</mat-label>
+      <input matInput placeholder="Enter owner's vat number" formControlName="ownerVatNumber" />
+      <mat-error *ngIf="createPropertyForm.get('ownerVatNumber')?.hasError('required')">
+        Owner's VAT Number is required
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="row pt30">
+    <button mat-flat-button type="submit">
+      {{ mode === 'create' ? 'Submit' : 'Update' }}
+    </button>
+  </div>
+</form>
