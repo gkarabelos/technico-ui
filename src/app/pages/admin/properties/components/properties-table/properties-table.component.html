@@ -25,11 +25,10 @@
 
       <div class="search-container">
         <mat-form-field class="search-field">
-          <input matInput class="search-input" type="text" [(ngModel)]="value" placeholder="Search here..."
-            (keyup)="applyFilter($event)">
-          <button matSuffix mat-icon-button class="search-icon-button">
-            <mat-icon class="close-icon" *ngIf="value != ''; else elseBlock" (click)="value=''">close</mat-icon>
-            <ng-template #elseBlock>
+          <input matInput class="search-input" type="text" [(ngModel)]="value" placeholder="Search here...">
+          <button matSuffix mat-icon-button class="search-icon-button" (click)="applyFilter()">
+            <mat-icon class="close-icon" *ngIf="value !== ''; else searchIcon" (click)="value=''">close</mat-icon>
+            <ng-template #searchIcon>
               <mat-icon class="search-icon">search</mat-icon>
             </ng-template>
           </button>
@@ -96,5 +95,13 @@
     </mat-card>
   </div>
 
-  <mat-paginator class="paginator" [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons></mat-paginator>
+  <mat-paginator 
+    class="paginator" 
+    [pageSizeOptions]="[10, 20, 50]"
+    [length]="totalRecords"
+    [pageSize]="pageSize"
+    [pageIndex]="pageIndex"
+    (page)="onPageChange($event)" 
+    showFirstLastButtons>
+  </mat-paginator>
 </div>
