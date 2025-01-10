@@ -5,6 +5,7 @@ import { RepairsComponent } from './pages/admin/repairs/repairs.component';
 import { CreatePropertyComponent } from './pages/admin/properties/components/create-property/create-property.component';
 import { UpdatePropertyComponent } from './pages/admin/properties/components/update-property/update-property.component';
 
+
 export const routes: Routes = [
     {
         path: '',

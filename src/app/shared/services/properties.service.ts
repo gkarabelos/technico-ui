@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Property, PropertyRequest } from '../models/property';
 import { VatValidationResponse } from '../models/vatValidationResponse';
-import { PaginatedResult } from '../models/pagination';
+import { Repair } from '../models/repair';
 
 @Injectable({
   providedIn: 'root'
@@ -42,12 +42,4 @@ export class PropertiesService {
     return this.http.get<VatValidationResponse>(url);
   }
 
-  getPaginatedProperties(page: number, pageSize: number, searchTerm: string = ''): Observable<PaginatedResult<Property>> {
-    const params = {
-      page: page.toString(),
-      pageSize: pageSize.toString(),
-      searchTerm: searchTerm
-    };
-    return this.http.get<PaginatedResult<Property>>(`${this.apiUrl}/paginated`, { params });
-  }
 }
