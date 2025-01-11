@@ -22,6 +22,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements AfterViewInit {
+  adminColor: string = 'orange'; // Set this to any color dynamically
+
   collapsed = signal(false)
   drawerWidth = computed(() => this.collapsed() ? '65px' : '250px');
   isLoading = true;
