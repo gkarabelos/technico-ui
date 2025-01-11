@@ -29,10 +29,16 @@ export class PropertiesFormComponent implements OnInit, OnChanges {
   @Input() propertyData: any;
   createPropertyForm: FormGroup;
   currentYear: number = new Date().getFullYear();
+  
+  propertyTypes = [
+    { value: 0, label: "Detached House" },
+    { value: 1, label: "Maisonet" },
+    { value: 2, label: "Apartment Building" },
+  ];
 
   constructor(private fb: FormBuilder, private dataService: PropertiesService, private snackBar: MatSnackBar) {
     this.createPropertyForm = this.fb.group({
-      propertyId: ['', Validators.required],
+      e9: ['', Validators.required],
       address: ['', Validators.required],
       type: ['', Validators.required],
       yearOfConstruction: ['', [Validators.required, Validators.pattern('^[0-9]*$'), Validators.max(new Date().getFullYear())]],
@@ -55,11 +61,11 @@ export class PropertiesFormComponent implements OnInit, OnChanges {
 
   populateForm(data: any) {
     this.createPropertyForm.patchValue({
-      propertyId: data.propertyId || '',
+      e9: data.e9 || '',
       address: data.address || '',
-      type: data.type || '',
+      type: data.type !== null && data.type !== undefined ? data.type : '',
       yearOfConstruction: data.yearOfConstruction || '',
-      ownerVatNumber: data.owner?.vatNumber || '',
+      ownerVatNumber: data.vatNumber || '',
     });
   }
 
@@ -109,8 +115,6 @@ export class PropertiesFormComponent implements OnInit, OnChanges {
           ...this.createPropertyForm.value, 
           ownerId: response.id
         };
-        console.log(updatedFormValue)
-        delete updatedFormValue.ownerVatNumber;
         console.log('POST Request: ', updatedFormValue);
 
         this.dataService.createProperty(updatedFormValue).subscribe({

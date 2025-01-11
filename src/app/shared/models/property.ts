@@ -3,7 +3,7 @@ export interface Property {
     propertyId: string;
     address: string;
     yearOfConstruction: number;
-    type: string;
+    type: number;
     vatNumber: string;
 }
 

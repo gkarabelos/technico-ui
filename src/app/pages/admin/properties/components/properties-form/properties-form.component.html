@@ -4,8 +4,8 @@
   <div class="row">
     <mat-form-field class="form-field">
       <mat-label>Property ID</mat-label>
-      <input matInput placeholder="Enter property id" formControlName="propertyId" />
-      <mat-error *ngIf="createPropertyForm.get('propertyId')?.hasError('required')">
+      <input matInput placeholder="Enter property id" formControlName="e9" />
+      <mat-error *ngIf="createPropertyForm.get('e9')?.hasError('required')">
         Property ID is required
       </mat-error>
     </mat-form-field>
@@ -31,9 +31,9 @@
     <mat-form-field class="form-field">
       <mat-label>Property Type</mat-label>
       <mat-select formControlName="type">
-        <mat-option value="DetachedHouse">Detached House</mat-option>
-        <mat-option value="Maisonet">Maisonet</mat-option>
-        <mat-option value="ApartmentBuilding">Apartment Building</mat-option>
+        <mat-option *ngFor="let type of propertyTypes" [value]="type.value">
+          {{ type.label }}
+        </mat-option>
       </mat-select>
       <mat-error *ngIf="createPropertyForm.get('type')?.hasError('required')">
         Property Type is required

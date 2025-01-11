@@ -19,6 +19,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { Property } from '../../../../../shared/models/property';
+import { mapTypeFromBackend } from '../../../../../shared/utils/propertyTypeMapping';
 
 export interface DisplayColumn {
   def: string;
@@ -106,7 +107,10 @@ export class PropertiesTableComponent implements OnInit {
     this.service.getPaginatedProperties(page + 1, pageSize, searchTerm).subscribe({
       next: (response) => {
         this.isLoading = false;
-        this.dataSource.data = response.data;
+        this.dataSource.data = response.data.map((property: any) => ({
+          ...property,
+          type: mapTypeFromBackend(property.type),
+        }));
         console.log("Response Data:", response.data);
         this.totalRecords = response.totalRecords;
       },
