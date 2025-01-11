@@ -1,12 +1,10 @@
-import { Owner } from "./owner";
-
 export interface Property {
     id: number;
     propertyId: string;
     address: string;
     yearOfConstruction: number;
     type: string;
-    owner: Owner;
+    vatNumber: string;
 }
 
 export interface PropertyRequest {
