@@ -1,9 +1,8 @@
 <div class="active-repairs-page">
     <div class="title">
       <h2>Active Repairs for Today </h2>
-      <div class="date-container">
-        10-1-2025<mat-icon>date_range</mat-icon>
-      </div>
+      <div *ngIf="repairs.length > 0" class="date-container">
+        <p><mat-icon>event</mat-icon> Date: {{ repairs[0].date | date:'fullDate' }}</p>
     </div>
   
     <mat-progress-spinner *ngIf="isLoading" mode="indeterminate"></mat-progress-spinner>

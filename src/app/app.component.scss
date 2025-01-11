@@ -37,3 +37,13 @@ mat-sidenav {
 mat-sidenav, mat-sidenav-content {
     transition: all 225ms ease-in-out;
 }
+
+.admin{
+    display:flex;
+    margin-left: auto;
+    //gap:5px;
+}
+
+.admin .mat-icon{
+    
+}
