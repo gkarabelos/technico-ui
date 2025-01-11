@@ -1,5 +1,3 @@
-import { Property } from "./property";
-
 export interface Repair {
     id: number;
     date: Date;
@@ -7,5 +5,7 @@ export interface Repair {
     description: string;
     status: string;
     cost: number;
-    property: Property;
+    ownerName: string;
+    ownerSurname: string;
+    propertyAddress: string;
 }

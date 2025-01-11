@@ -18,10 +18,10 @@
               <div class="repair-header">
                 <div class="repair-type-owner">
                   <h2><mat-icon>build</mat-icon> {{ repair.type }} </h2>
-                  <h2><mat-icon>person</mat-icon> {{ repair.property.owner.name || 'No Owner' }} {{ repair.property.owner.surname || 'No Owner' }}</h2>  <!-- Assuming owner exists -->
+                  <h2><mat-icon>person</mat-icon> {{ repair.ownerName || 'No Owner' }} {{ repair.ownerSurname || 'No Owner' }}</h2>  <!-- Assuming owner exists -->
                   </div>
                   <div class="address-container">
-                    <h3><mat-icon>location_on</mat-icon> {{ repair.property.address || 'No Address' }}</h3>
+                    <h3><mat-icon>location_on</mat-icon> {{ repair.propertyAddress || 'No Address' }}</h3>
                     <div class="icon-button-container">
                       <button mat-mini-fab (click)="goToEdit()" class="icon-button">
                       <mat-icon>edit</mat-icon>

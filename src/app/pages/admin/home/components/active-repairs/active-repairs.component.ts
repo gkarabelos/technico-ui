@@ -31,7 +31,8 @@ export class ActiveRepairsComponent implements OnInit {
   getActiveRepairsForToday(): void {
     this.repairsService.getActiveRepairsForToday().subscribe({
       next: (data) => {
-        this.repairs = data;  
+        this.repairs = data; 
+        console.log("Response Data:", data);
         this.isLoading = false; 
       },
       error: (err) => {

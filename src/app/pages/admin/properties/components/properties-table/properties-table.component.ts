@@ -78,11 +78,11 @@ export class PropertiesTableComponent implements OnInit {
 
   displayedPropertyColumns: DisplayColumn[] = [ 
     { def: 'id', label: 'Id' },
-    { def: 'propertyId', label: 'Property ID' },
+    { def: 'e9', label: 'Property ID' },
     { def: 'address', label: 'Property Address' },
     { def: 'yearOfConstruction', label: 'Year of Construction' },
     { def: 'type', label: 'Type of Property' },
-    { def: 'owner', label: 'Owner' },
+    { def: 'vatNumber', label: 'Owners VAT Number' },
     { def: 'action', label: 'Action' }
   ];
 
@@ -143,6 +143,7 @@ export class PropertiesTableComponent implements OnInit {
       next: (response) => {
         this.isLoading = false;
         this.dataSource.data = response;
+        console.log("Response Data:", response);
       },
       error: (err) => {
         console.error('Error fetching data:', err);
