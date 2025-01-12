@@ -6,6 +6,8 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { LoginComponent } from "./pages/login/login.component";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -27,6 +29,12 @@ export class AppComponent implements AfterViewInit {
   collapsed = signal(false)
   drawerWidth = computed(() => this.collapsed() ? '65px' : '250px');
   isLoading = true;
+  
+  constructor(private router: Router) {}
+
+  isLoginPage(): boolean {
+    return this.router.url == '/login';
+  }
 
   ngAfterViewInit() {
     setTimeout(() => {
