@@ -4,6 +4,7 @@ import { PropertiesComponent } from './pages/admin/properties/properties.compone
 import { RepairsComponent } from './pages/admin/repairs/repairs.component';
 import { CreatePropertyComponent } from './pages/admin/properties/components/create-property/create-property.component';
 import { UpdatePropertyComponent } from './pages/admin/properties/components/update-property/update-property.component';
+import { UpdateRepairComponent } from './pages/admin/home/update-repair/update-repair.component';
 
 
 export const routes: Routes = [
@@ -31,5 +32,9 @@ export const routes: Routes = [
     { 
         path: 'update-property/:id', 
         component: UpdatePropertyComponent 
+    },
+    {
+        path: 'update-repair/:id',
+        component: UpdateRepairComponent
     }
 ];

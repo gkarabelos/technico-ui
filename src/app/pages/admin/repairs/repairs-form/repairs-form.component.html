@@ -1,0 +1,52 @@
+<h1 class="form-title">{{ mode === 'update' ? 'Update Repair' : 'Add Repair' }}
+</h1>
+<p>Address of Current Repair: {{ propertyAddress }}</p>
+
+<form [formGroup]="updateRepairsForm" (ngSubmit)="submitForm()">
+  <div class="row">
+    <mat-form-field class="form-field">
+      <mat-label>Cost</mat-label>
+      <input matInput placeholder="Enter repair cost" formControlName="cost" />
+      <mat-error *ngIf="updateRepairsForm.get('cost')?.hasError('required')">
+        Cost is required
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="form-field">
+      <mat-label>Description</mat-label>
+      <input matInput placeholder="Enter repair description" formControlName="description" />
+      <mat-error *ngIf="updateRepairsForm.get('description')?.hasError('required')">
+        Description is required
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="row">
+    <mat-form-field class="form-field">
+      <mat-label>Date of Repair</mat-label>
+      <input matInput type="date" placeholder="Select date of repair" formControlName="date" />
+      <mat-error *ngIf="updateRepairsForm.get('date')?.hasError('required')">
+        Date of repair is required
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="form-field">
+      <mat-label>Type of Repair</mat-label>
+      <mat-select formControlName="type">
+        <mat-option value="Electrical">Electrical</mat-option>
+        <mat-option value="Plumbing">Plumbing</mat-option>
+        <mat-option value="Painting">Painting</mat-option>
+        <mat-option value="Renovation">Renovation</mat-option>
+      </mat-select>
+      <mat-error *ngIf="updateRepairsForm.get('type')?.hasError('required')">
+        Type of repair is required
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="row pt30">
+    <button mat-flat-button type="submit" color="primary">
+      {{ mode === 'update' ? 'Submit' : 'Update' }}
+    </button>
+  </div>
+</form>
