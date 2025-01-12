@@ -7,11 +7,12 @@ import { CommonModule } from '@angular/common';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
+import { RouterModule } from '@angular/router';
 
 
 @Component({
   selector: 'app-active-repairs',
-  imports: [CommonModule,MatIconModule,MatProgressSpinnerModule,MatButtonModule],
+  imports: [CommonModule,MatIconModule,MatProgressSpinnerModule,MatButtonModule ,RouterModule,],
   templateUrl: './active-repairs.component.html',
   styleUrl: './active-repairs.component.scss'
 })
@@ -40,9 +41,5 @@ export class ActiveRepairsComponent implements OnInit {
         this.isLoading = false;  
       }
     });
-  }
-
-  goToEdit(): void {
-    
   }
 }

@@ -9,3 +9,12 @@ export interface Repair {
     ownerSurname: string;
     propertyAddress: string;
 }
+
+export interface RepairRequest{
+    repairId: number;
+    date: Date;
+    type: string;
+    status: string;
+    description: string;
+    cost: number;
+}
