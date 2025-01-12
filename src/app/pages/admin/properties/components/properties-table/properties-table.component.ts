@@ -19,6 +19,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { Property } from '../../../../../shared/models/property';
+import { mapTypeFromBackend } from '../../../../../shared/utils/propertyTypeMapping';
 
 export interface DisplayColumn {
   def: string;
@@ -74,7 +75,10 @@ export class PropertiesTableComponent implements OnInit {
   dataSource = new MatTableDataSource<Property>(this.ELEMENT_DATA);
   value: string = '';
   isLoading: boolean = true;
-  disColumns!: string[]; 
+  disColumns!: string[];
+  totalRecords: number = 0;
+  pageSize: number = 10;
+  pageIndex: number = 0; 
 
   displayedPropertyColumns: DisplayColumn[] = [ 
     { def: 'id', label: 'Id' },
@@ -94,15 +98,40 @@ export class PropertiesTableComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.dataSource.paginator = this.paginator;
-
-    this.disColumns = this.displayedPropertyColumns.map(cd => cd.def)
-
-    this.getAllProperties();
+    this.disColumns = this.displayedPropertyColumns.map(cd => cd.def);
+    this.loadData(this.pageIndex, this.pageSize);
   }
 
-  applyFilter(event: any): void {
-    this.dataSource.filter = event.target.value.trim().toLowerCase();
+  loadData(page: number, pageSize: number, searchTerm: string = ''): void {
+    this.isLoading = true;
+    this.service.getPaginatedProperties(page + 1, pageSize, searchTerm).subscribe({
+      next: (response) => {
+        this.isLoading = false;
+        this.dataSource.data = response.data.map((property: any) => ({
+          ...property,
+          type: mapTypeFromBackend(property.type),
+        }));
+        console.log("Response Data:", response.data);
+        this.totalRecords = response.totalRecords;
+      },
+      error: (err) => {
+        console.error('Error fetching paginated data:', err);
+      }
+    });
+  }
+
+  onPageChange(event: any): void {
+    const searchTerm = this.value.trim().toLowerCase();
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.loadData(this.pageIndex, this.pageSize, searchTerm);
+  }
+
+  applyFilter(): void {
+    const searchTerm = this.value.trim().toLowerCase();
+    this.pageIndex = 0;
+    this.paginator.firstPage();
+    this.loadData(this.pageIndex, this.pageSize, searchTerm);
   }
 
   updateProperty(row: any): void {
@@ -134,22 +163,6 @@ export class PropertiesTableComponent implements OnInit {
       error: (err) => {
         console.log(err);
         alert(err.error?.message || 'Error deleting property.');
-      },
-    });
-  }
-
-  public getAllProperties(): void {
-    this.service.getAllProperties().subscribe({
-      next: (response) => {
-        this.isLoading = false;
-        this.dataSource.data = response;
-        console.log("Response Data:", response);
-      },
-      error: (err) => {
-        console.error('Error fetching data:', err);
-      },
-      complete: () => {
-        console.log('Data fetching completed');
       },
     });
   }
