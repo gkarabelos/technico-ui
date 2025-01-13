@@ -1,1 +1,84 @@
-<p>owners-form works!</p>
+<h1 class="form-title">{{ mode === 'create' ? 'Add Owner' : 'Update Owner' }}</h1>
+
+<form [formGroup]="createOwnerForm" (ngSubmit)="submitForm()">
+  <div class="row">
+    <mat-form-field class="form-field">
+      <mat-label>VAT Number</mat-label>
+      <input matInput placeholder="Enter vat number" formControlName="vatNumber" />
+      <mat-error *ngIf="createOwnerForm.get('vatNumber')?.hasError('required')">
+        VAT Number is required
+      </mat-error>
+    </mat-form-field>
+  
+    <mat-form-field class="form-field">
+      <mat-label>Name</mat-label>
+      <input matInput placeholder="Enter name" formControlName="name" />
+      <mat-error *ngIf="createOwnerForm.get('name')?.hasError('required')">
+        Name is required
+      </mat-error>
+    </mat-form-field>
+  
+    <mat-form-field class="form-field">
+      <mat-label>Surname</mat-label>
+      <input matInput placeholder="Enter surname" formControlName="surname" />
+      <mat-error *ngIf="createOwnerForm.get('surname')?.hasError('required')">
+        Surname is required
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="row">
+    <mat-form-field class="form-field">
+        <mat-label>Address</mat-label>
+        <input matInput placeholder="Enter address" formControlName="address" />
+        <mat-error *ngIf="createOwnerForm.get('address')?.hasError('required')">
+          Address is required
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="form-field">
+      <mat-label>Phone Number</mat-label>
+      <input matInput placeholder="Enter phone number" formControlName="phoneNumber" />
+      <mat-error *ngIf="createOwnerForm.get('phoneNumber')?.hasError('required')">
+        Phone Number is required
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="form-field">
+        <mat-label>Email</mat-label>
+        <input matInput placeholder="Enter email" formControlName="email" />
+        <mat-error *ngIf="createOwnerForm.get('email')?.hasError('required')">
+          Email is required
+        </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="row">
+    <mat-form-field class="form-field">
+        <mat-label>Password</mat-label>
+        <input matInput placeholder="Enter password" formControlName="password" />
+        <mat-error *ngIf="createOwnerForm.get('password')?.hasError('required')">
+          Password is required
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="form-field">
+        <mat-label>Type of User</mat-label>
+        <mat-select formControlName="type">
+          <mat-option *ngFor="let type of ownerTypes" [value]="type.value">
+            {{ type.label }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="createOwnerForm.get('type')?.hasError('required')">
+          Type of User is required
+        </mat-error>
+      </mat-form-field>
+  </div>
+
+  <div class="row pt30">
+    <button mat-flat-button type="submit">
+      {{ mode === 'create' ? 'Submit' : 'Update' }}
+    </button>
+  </div>
+</form>
+
