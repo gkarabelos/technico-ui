@@ -1,6 +1,7 @@
 <h1 class="form-title">{{ mode === 'update' ? 'Update Repair' : 'Add Repair' }}
 </h1>
 <p>Address of Current Repair: {{ propertyAddress }}</p>
+<p>E9: {{propertyE9}}</p>
 
 <form [formGroup]="updateRepairsForm" (ngSubmit)="submitForm()">
   <div class="row">

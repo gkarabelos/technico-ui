@@ -146,14 +146,17 @@ h2 {
   border-radius: 5px;
 }
 .status-pending-button {
-  background-color: rgb(251, 142, 40) !important;
+  background-color: #fff !important;
+  border-color: rgb(251, 142, 40) !important;
+  color:rgb(251, 142, 40) !important;
+  border: 2px solid rgb(251, 142, 40);
 }
 
-.status-on-going-button{
-  background-color: rgb(165, 165, 165) !important;
+.status-progress-button{
+  background-color: rgb(173, 173, 173) !important;
   //background-color: rgb(45, 193, 212) !important;
 }
 
 .status-completed-button{
-  background-color: rgb(99, 209, 56) !important;
+  background-color: #3b4163 !important;
 }
