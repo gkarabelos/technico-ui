@@ -32,8 +32,8 @@
             </div>
             <div class="button-container">
               <button mat-flat-button class="status-pending-button">Pending</button>
-              <button mat-flat-button class="status-on-going-button">On Going</button>
-              <button mat-flat-button class="status-completed-button">Mark As Completed</button>
+              <!--- <button mat-flat-button class="status-progress-button">In Progress</button>--->
+              <button mat-flat-button class="status-completed-button" (click)="markAsCompleted(repair.id)">Mark As Completed</button>
             </div>
           </div>
 

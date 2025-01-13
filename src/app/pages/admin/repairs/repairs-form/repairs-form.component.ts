@@ -9,6 +9,7 @@ import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarModule, MatSnack
 import { RepairsService } from '../../../../shared/services/repairs.service';
 import { ActivatedRoute } from '@angular/router';
 import { PropertiesService } from '../../../../shared/services/properties.service';
+
 @Component({
   selector: 'app-repairs-form',
   imports: [
@@ -27,11 +28,13 @@ import { PropertiesService } from '../../../../shared/services/properties.servic
 export class RepairsFormComponent implements OnInit, OnChanges {
   @Input() mode: 'update' = 'update';
   @Input() repairData: any;
+  @Input() propertyData: any;
   updateRepairsForm: FormGroup;
   currentYear: number = new Date().getFullYear();
   repairId!: number;
   properties: any[] = [];
   propertyAddress: string = '';
+  propertyE9: string ='';
 
   constructor(private fb: FormBuilder,
     private repairsService: RepairsService,
@@ -43,8 +46,8 @@ export class RepairsFormComponent implements OnInit, OnChanges {
       date: ['', Validators.required],
       type: ['', Validators.required],
       description: ['', Validators.required],
-      cost: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
-    });
+      cost: ['', [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$')]],
+    });     
   }
 
   ngOnInit() {
@@ -56,23 +59,23 @@ export class RepairsFormComponent implements OnInit, OnChanges {
     if (id) {
       this.repairId = +id; // Convert the string to a number
     } else {
-      this.showSnackBar('Repair ID is missing from the route!', 'error');
+      this.showError('Repair ID is missing from the route!');
     }
  
     if (this.mode === 'update' && this.repairId) {
-      // Fetch repair data based on the 'id'
       this.repairsService.getRepairById(this.repairId).subscribe((data) => {
         this.repairData = data;
         this.propertyAddress = data.propertyAddress || 'Unknown Address';
+        console.log("Data of repairs: ",data)
         this.propertiesService.getPropertyById(data.propertyId).subscribe((propertyData) => {
         this.propertyAddress = propertyData.address || 'Unknown Address';
+        this.propertyE9=propertyData.e9 || 'Unknown Id'
+        console.log("Data of prop: ",propertyData);
       });
-        this.populateForm(this.repairData);
+        this.populateForm(this.repairData);//vazei ta idi uparxon data sto form
       });
     }
   }
-
-  
 
   ngOnChanges(changes: SimpleChanges) {
     console.log("i got to repair form");
@@ -109,9 +112,7 @@ export class RepairsFormComponent implements OnInit, OnChanges {
       this.updateRepairsForm.markAllAsTouched();
       return;
     }
-
     const formValue = this.updateRepairsForm.value;
-
     if (this.mode === 'update') {
       this.handleUpdate(formValue);
     }
@@ -127,21 +128,36 @@ export class RepairsFormComponent implements OnInit, OnChanges {
   
     this.repairsService.updateRepair(this.repairData.id, repairData).subscribe({
       next: () => {
-        this.showSnackBar('Repair updated successfully!', 'success');
+        this.showSuccess('Repair updated successfully!');
       },
       error: (err) => {
         console.error(err);
-        this.showSnackBar('Failed to update repair.', 'error');
+        this.showError('Failed to update repair.');
       },
     });
   }
 
-  showSnackBar(message: string, type: 'success' | 'error') {
-    this.snackBar.open(message, 'Close', {
+
+
+  //Error and Success Alert UI
+  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
+
+  showError(message: string) {
+    this.snackBar.open(message, 'close', {
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
       duration: 3000,
-      horizontalPosition: 'center',
-      verticalPosition: 'top',
-      panelClass: type === 'success' ? ['success-snackbar'] : ['error-snackbar'],
+      panelClass: ['error-snackbar'],
+    });
+  }
+
+  showSuccess(message: string) {
+    this.snackBar.open(message, 'close', {
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+      duration: 3000,
+      panelClass: ['success-snackbar'],
     });
   }
 
