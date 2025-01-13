@@ -115,6 +115,7 @@ export class PropertiesTableComponent implements OnInit {
         this.totalRecords = response.totalRecords;
       },
       error: (err) => {
+        this.isLoading = false; 
         console.error('Error fetching paginated data:', err);
       }
     });

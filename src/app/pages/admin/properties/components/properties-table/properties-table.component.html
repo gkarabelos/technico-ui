@@ -14,13 +14,7 @@
       </div>
 
       <div class="button-container">
-        <button mat-flat-button class="properties-table-button">Search Owners</button>
-      </div>
-
-      <div class="icon-button-container">
-        <button mat-mini-fab class="icon-button">
-          <mat-icon>filter_alt</mat-icon>
-        </button>
+        <button mat-flat-button class="properties-table-button" routerLink="/search-owner">Search Owners</button>
       </div>
 
       <div class="search-container">
@@ -90,6 +84,9 @@
       <mat-progress-spinner mode="indeterminate">
       </mat-progress-spinner>
     </mat-card>
+    <div *ngIf="dataSource.data.length === 0 && !isLoading" class="no-properties-message-container">
+      <h3 class="no-properties-message">No Properties Available</h3>
+    </div>
   </div>
 
   <mat-paginator 
