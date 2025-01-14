@@ -18,11 +18,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
-import { Property } from '../../../../../shared/models/property';
-import { mapTypeFromBackend } from '../../../../../shared/utils/propertyTypeMapping';
 import { OwnersService } from '../../../../../shared/services/owners.service';
 import { mapUserTypeFromBackend } from '../../../../../shared/utils/userTypeMapping';
 import { Owner } from '../../../../../shared/models/owner';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarModule, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 
 export interface DisplayColumn {
   def: string;
@@ -43,6 +42,7 @@ export interface DisplayColumn {
     CommonModule,
     MatInputModule,
     MatButtonModule,
+    MatSnackBarModule,
     RouterModule
   ],
   templateUrl: './owners-table.component.html',
@@ -101,11 +101,33 @@ export class OwnersTableComponent {
     public dialog: MatDialog,
     private service: OwnersService,
     private alertService: AlertService,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
     this.disColumns = this.displayedOwnerColumns.map(cd => cd.def);
+  }
+
+  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
+    
+  showError(message: string) {
+    this.snackBar.open(message, 'close', {
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+      duration: 3000,
+      panelClass: ['error-snackbar'],
+    });
+  }
+    
+  showSuccess(message: string) {
+    this.snackBar.open(message, 'close', {
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+      duration: 3000,
+      panelClass: ['success-snackbar'],
+    });
   }
 
   applyFilter(): void {
@@ -151,11 +173,21 @@ export class OwnersTableComponent {
     const data = this.dataSource.data
     this.service.deleteOwner(row_obj['id']).subscribe({
       next: () => {
-        alert('Owner deleted successfully.');
+        this.showSuccess('Owner deleted successfully.');
       },
       error: (err) => {
         console.log(err);
-        alert(err.error?.message || 'Error deleting owner.');
+        let firstErrorMessage = 'Error deleting owner.';
+        const validationErrors = err.error?.errors;
+
+        if (validationErrors && typeof validationErrors === 'object') {
+          const firstErrorKey = Object.keys(validationErrors)[0];
+          if (firstErrorKey && validationErrors[firstErrorKey].length > 0) {
+            firstErrorMessage = validationErrors[firstErrorKey][0];
+          }
+        }
+        console.log("Error Message:", firstErrorMessage);
+        this.showError(firstErrorMessage);  
       },
     });
   }

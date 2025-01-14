@@ -156,3 +156,31 @@ mat-paginator {
   margin: 0 8px !important;
   width: 70px !important;
 }
+
+::ng-deep .error-snackbar {
+  border-radius: 5px;
+  outline-offset: 2px;
+  --mdc-snackbar-container-color: rgb(255, 81, 81);
+  --mdc-snackbar-supporting-text-color: white;
+}
+
+::ng-deep .error-snackbar button {
+  font-family: 'Material Icons';
+  font-size: 20px;
+  color: white !important;
+  width: 1px !important;
+}
+
+::ng-deep .success-snackbar {
+  border-radius: 5px;
+  outline-offset: 2px;
+  --mdc-snackbar-container-color: rgb(40, 227, 84);
+  --mdc-snackbar-supporting-text-color: white;
+}
+
+::ng-deep .success-snackbar button {
+  font-family: 'Material Icons';
+  font-size: 20px;
+  color: white !important;
+  width: 1px !important;
+}
