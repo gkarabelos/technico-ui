@@ -1,0 +1,109 @@
+<div class="repairs-table-container">
+    <div class="repairs-table-header">
+      <div class="row">
+        <h3 class="table-title">Pending Repairs</h3>
+      </div>
+  
+      <div class="row pb10">
+        <div class="button-container">
+          <button mat-flat-button class="repairs-table-button" routerLink="/create-repair">Create Repair</button>
+        </div>
+  
+        <div class="search-container">
+          <mat-form-field class="search-field">
+            <input matInput class="search-input" type="text" [(ngModel)]="value" placeholder="Search here...">
+            <button matSuffix mat-icon-button class="search-icon-button" (click)="applyFilter()">
+                <mat-icon class="search-icon">search</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  
+    <div class="responsive-table">
+      <table mat-table matTableExporter [dataSource]="dataSource" matSort>
+  
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
+          <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
+          <td mat-cell *matCellDef="let element"> {{ element.date | date: 'short' }} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="type">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Repair Type </th>
+          <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="propertyAddress">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Property Address </th>
+          <td mat-cell *matCellDef="let element"> {{ element.propertyAddress }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="ownerName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.ownerName}} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="ownerSurname">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Surname </th>
+          <td mat-cell *matCellDef="let element"> {{ element.ownerSurname }} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
+          <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+          <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="cost">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Cost </th>
+          <td mat-cell *matCellDef="let element"> {{element.cost}} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="action">
+          <th mat-header-cell class="action-column-header" *matHeaderCellDef>Action</th>
+          <td mat-cell *matCellDef="let row">
+  
+            <button mat-icon-button class="table-icon-button" (click)="updateRepair(row)" matTooltip="Edit row">
+              <mat-icon>edit</mat-icon>
+            </button>
+  
+            <button mat-icon-button class="table-icon-button" (click)="openDeleteDialog(row)" matTooltip="Delete row">
+              <mat-icon>delete</mat-icon>
+            </button>
+  
+          </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="disColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: disColumns;"></tr>
+      </table>
+  
+      <mat-card *ngIf="isLoading" class="loading-spinner">
+        <mat-progress-spinner mode="indeterminate">
+        </mat-progress-spinner>
+      </mat-card>
+      <div *ngIf="dataSource.data.length === 0 && !isLoading" class="no-repairs-message-container">
+        <h3 class="no-repairs-message">No Repairs Available</h3>
+      </div>
+    </div>
+  
+    <mat-paginator 
+      class="paginator" 
+      [pageSizeOptions]="[10, 20, 50]"
+      [length]="totalRecords"
+      [pageSize]="pageSize"
+      [pageIndex]="pageIndex"
+      (page)="onPageChange($event)" 
+      showFirstLastButtons>
+    </mat-paginator>
+  </div>
+  

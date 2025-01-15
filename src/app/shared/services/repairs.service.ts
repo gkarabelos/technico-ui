@@ -4,6 +4,7 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Repair, RepairRequest } from "../models/repair";
 import { Property } from "../models/property";
+import { PaginatedResult } from "../models/pagination";
 
 @Injectable({
     providedIn: 'root',
@@ -32,4 +33,18 @@ import { Property } from "../models/property";
         const url = `${this.apiUrl}/${id}`;
         return this.http.get<Property>(url);
     }
+
+    deleteRepair(id: number): Observable<void> {
+      const url = `${this.apiUrl}/${id}`;
+      return this.http.delete<void>(url);
+    }
+
+    getPaginatedRepairs(page: number, pageSize: number, searchTerm: string = ''): Observable<PaginatedResult<Repair>> {
+        const params = {
+          page: page.toString(),
+          pageSize: pageSize.toString(),
+          searchTerm: searchTerm
+        };
+        return this.http.get<PaginatedResult<Repair>>(`${this.apiUrl}/paginated`, { params });
+      }
   }

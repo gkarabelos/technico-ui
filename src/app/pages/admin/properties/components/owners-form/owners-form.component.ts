@@ -28,7 +28,6 @@ export class OwnersFormComponent implements OnInit, OnChanges {
   @Input() mode: 'create' | 'update' = 'create';
   @Input() ownerData: any;
   createOwnerForm: FormGroup;
-  currentYear: number = new Date().getFullYear();
   
   ownerTypes = [
     { value: 0, label: "Admin" },
@@ -55,7 +54,7 @@ export class OwnersFormComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['ownerData'] && changes['owwnerData'].currentValue) {
+    if (changes['ownerData'] && changes['ownerData'].currentValue) {
       console.log('Owner Data Updated:', changes['ownerData'].currentValue);
       this.populateForm(changes['ownerData'].currentValue);
     }
@@ -124,6 +123,20 @@ export class OwnersFormComponent implements OnInit, OnChanges {
           }
         });
       },
+      error: (err) => {
+        console.log(err);
+        let firstErrorMessage = 'Error creating owner.';
+        const validationErrors = err.error?.errors;
+
+        if (validationErrors && typeof validationErrors === 'object') {
+          const firstErrorKey = Object.keys(validationErrors)[0];
+          if (firstErrorKey && validationErrors[firstErrorKey].length > 0) {
+            firstErrorMessage = validationErrors[firstErrorKey][0];
+          }
+        }
+        console.log("Error Message:", firstErrorMessage);
+        this.showError(firstErrorMessage);
+      }
     });
   }
 
@@ -134,7 +147,18 @@ export class OwnersFormComponent implements OnInit, OnChanges {
       },
       error: (err) => {
         console.log(err);
-        this.showError(err.error?.error.message || 'Error updating owner.');
+
+        let firstErrorMessage = 'Error updating owner.';
+        const validationErrors = err.error?.errors;
+
+        if (validationErrors && typeof validationErrors === 'object') {
+          const firstErrorKey = Object.keys(validationErrors)[0];
+          if (firstErrorKey && validationErrors[firstErrorKey].length > 0) {
+            firstErrorMessage = validationErrors[firstErrorKey][0];
+          }
+        }
+        console.log("Error Message:", firstErrorMessage);
+        this.showError(firstErrorMessage);
       },
     });
   }

@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { PropertiesService } from '../../../../../shared/services/properties.service';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarModule, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { VatValidationResponse } from '../../../../../shared/models/vatValidationResponse';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-properties-form',
@@ -20,6 +21,7 @@ import { VatValidationResponse } from '../../../../../shared/models/vatValidatio
     MatButtonModule,
     MatSelectModule,
     MatSnackBarModule,
+    MatCheckboxModule,
   ],
   templateUrl: './properties-form.component.html',
   styleUrl: './properties-form.component.scss'
@@ -43,6 +45,7 @@ export class PropertiesFormComponent implements OnInit, OnChanges {
       type: ['', Validators.required],
       yearOfConstruction: ['', [Validators.required, Validators.pattern('^[0-9]*$'), Validators.max(new Date().getFullYear())]],
       ownerVatNumber: ['', Validators.required],
+      isActive: [true, Validators.required],
     });
   }
 
@@ -60,12 +63,14 @@ export class PropertiesFormComponent implements OnInit, OnChanges {
   }
 
   populateForm(data: any) {
+    console.log("is Active:", data.isActive)
     this.createPropertyForm.patchValue({
       e9: data.e9 || '',
       address: data.address || '',
       type: data.type !== null && data.type !== undefined ? data.type : '',
       yearOfConstruction: data.yearOfConstruction || '',
       ownerVatNumber: data.vatNumber || '',
+      isActive: data.isActive,
     });
   }
 
@@ -106,6 +111,7 @@ export class PropertiesFormComponent implements OnInit, OnChanges {
   }
 
   handleCreate(formValue: any) {
+
     const vatNumber = formValue.ownerVatNumber;
 
     this.dataService.validateOwnerVat(vatNumber).subscribe({
@@ -132,7 +138,18 @@ export class PropertiesFormComponent implements OnInit, OnChanges {
           },
           error: (err) => {
             console.log(err);
-            this.showError(err.error?.error.message || 'An error occurred during property creation.');
+
+            let firstErrorMessage = 'Error creating property.';
+            const validationErrors = err.error?.errors;
+
+            if (validationErrors && typeof validationErrors === 'object') {
+              const firstErrorKey = Object.keys(validationErrors)[0];
+              if (firstErrorKey && validationErrors[firstErrorKey].length > 0) {
+                firstErrorMessage = validationErrors[firstErrorKey][0];
+              }
+            }
+            console.log("Error Message:", firstErrorMessage);
+            this.showError(firstErrorMessage);
           },
         });
       },
@@ -163,7 +180,17 @@ export class PropertiesFormComponent implements OnInit, OnChanges {
           },
           error: (err) => {
             console.log(err);
-            this.showError(err.error?.error.message || 'Error updating property.');
+            let firstErrorMessage = 'Error updating property.';
+            const validationErrors = err.error?.errors;
+
+            if (validationErrors && typeof validationErrors === 'object') {
+              const firstErrorKey = Object.keys(validationErrors)[0];
+              if (firstErrorKey && validationErrors[firstErrorKey].length > 0) {
+                firstErrorMessage = validationErrors[firstErrorKey][0];
+              }
+            }
+            console.log("Error Message:", firstErrorMessage);
+            this.showError(firstErrorMessage);  
           },
         });
       },

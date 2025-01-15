@@ -1,8 +1,9 @@
 import { AfterViewInit, Component } from '@angular/core';
+import { RepairsTableComponent } from './components/repairs-table/repairs-table.component';
 
 @Component({
   selector: 'app-repairs',
-  imports: [],
+  imports: [RepairsTableComponent],
   templateUrl: './repairs.component.html',
   styleUrl: './repairs.component.scss'
 })

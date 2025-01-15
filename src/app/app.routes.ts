@@ -7,6 +7,7 @@ import { UpdatePropertyComponent } from './pages/admin/properties/components/upd
 import { CreateOwnerComponent } from './pages/admin/properties/components/create-owner/create-owner.component';
 import { UpdateOwnerComponent } from './pages/admin/properties/components/update-owner/update-owner.component';
 import { UpdateRepairComponent } from './pages/admin/home/update-repair/update-repair.component';
+import { SearchOwnerComponent } from './pages/admin/properties/components/search-owner/search-owner.component';
 
 
 export const routes: Routes = [
@@ -46,5 +47,9 @@ export const routes: Routes = [
     {
         path: 'update-repair/:id',
         component: UpdateRepairComponent
-    }
+    },
+    { 
+        path: 'search-owner', 
+        component: SearchOwnerComponent 
+    },
 ];

@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { PropertiesService } from '../../../../../shared/services/properties.service';
 import { AlertService } from '../../../../../shared/services/alert.service';
 import { trigger, transition, query, style, animate } from '@angular/animations';
 import { MatTableDataSource } from '@angular/material/table';
@@ -18,9 +17,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
-import { Property } from '../../../../../shared/models/property';
-import { mapTypeFromBackend } from '../../../../../shared/utils/propertyTypeMapping';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarModule, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import { Repair } from '../../../../../shared/models/repair';
+import { mapStatusFromBackend } from '../../../../../shared/utils/repairStatusMapping';
+import { RepairsService } from '../../../../../shared/services/repairs.service';
 
 export interface DisplayColumn {
   def: string;
@@ -28,7 +28,7 @@ export interface DisplayColumn {
 }
 
 @Component({
-  selector: 'app-properties-table',
+  selector: 'app-repairs-table',
   imports: [
     MatFormFieldModule,
     FormsModule,
@@ -44,8 +44,8 @@ export interface DisplayColumn {
     MatSnackBarModule,
     RouterModule
   ],
-  templateUrl: './properties-table.component.html',
-  styleUrl: './properties-table.component.scss',
+  templateUrl: './repairs-table.component.html',
+  styleUrl: './repairs-table.component.scss',
   animations: [
     trigger('animation', [
       transition('* => *', [
@@ -71,10 +71,10 @@ export interface DisplayColumn {
     ])
   ]
 })
-export class PropertiesTableComponent implements OnInit {
+export class RepairsTableComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
-  ELEMENT_DATA!: Property[];
-  dataSource = new MatTableDataSource<Property>(this.ELEMENT_DATA);
+  ELEMENT_DATA!: Repair[];
+  dataSource = new MatTableDataSource<Repair>(this.ELEMENT_DATA);
   value: string = '';
   isLoading: boolean = true;
   disColumns!: string[];
@@ -82,38 +82,39 @@ export class PropertiesTableComponent implements OnInit {
   pageSize: number = 10;
   pageIndex: number = 0; 
 
-  displayedPropertyColumns: DisplayColumn[] = [ 
+  displayedRepairColumns: DisplayColumn[] = [ 
     { def: 'id', label: 'Id' },
-    { def: 'e9', label: 'Property ID' },
-    { def: 'address', label: 'Property Address' },
-    { def: 'yearOfConstruction', label: 'Year of Construction' },
-    { def: 'type', label: 'Type of Property' },
-    { def: 'isActive', label: 'Is Active' },
-    { def: 'vatNumber', label: 'Owners VAT Number' },
+    { def: 'date', label: 'Repair Date' },
+    { def: 'type', label: 'Repair Type' },
+    { def: 'description', label: 'Description' },
+    { def: 'propertyAddress', label: 'Property Address' },
+    { def: 'cost', label: 'Cost' },
+    { def: 'ownerName', label: 'Name' },
+    { def: 'ownerSurname', label: 'Surname' },
     { def: 'action', label: 'Action' }
   ];
 
   constructor(
     public dialog: MatDialog,
-    private service: PropertiesService,
+    private service: RepairsService,
     private alertService: AlertService,
     private router: Router,
     private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
-    this.disColumns = this.displayedPropertyColumns.map(cd => cd.def);
+    this.disColumns = this.displayedRepairColumns.map(cd => cd.def);
     this.loadData(this.pageIndex, this.pageSize);
   }
 
   loadData(page: number, pageSize: number, searchTerm: string = ''): void {
     this.isLoading = true;
-    this.service.getPaginatedProperties(page + 1, pageSize, searchTerm).subscribe({
+    this.service.getPaginatedRepairs(page + 1, pageSize, searchTerm).subscribe({
       next: (response) => {
         this.isLoading = false;
-        this.dataSource.data = response.data.map((property: any) => ({
-          ...property,
-          type: mapTypeFromBackend(property.type),
+        this.dataSource.data = response.data.map((repair: any) => ({
+          ...repair,
+          status: mapStatusFromBackend(repair.status),
         }));
         console.log("Response Data:", response.data);
         this.totalRecords = response.totalRecords;
@@ -160,14 +161,14 @@ export class PropertiesTableComponent implements OnInit {
     this.loadData(this.pageIndex, this.pageSize, searchTerm);
   }
 
-  updateProperty(row: any): void {
-    this.router.navigate(['/update-property', row.id]);
+  updateRepair(row: any): void {
+    this.router.navigate(['/update-repair', row.id]);
   }
 
   openDeleteDialog(obj: any): void {
     const options = {
       title: 'Delete?',
-      message: `Are you sure want to remove the property with Id: ${obj.id}?`,
+      message: `Are you sure want to remove the repair with Id: ${obj.id}?`,
       cancelText: 'NO',
       confirmText: 'YES'
     };
@@ -182,13 +183,13 @@ export class PropertiesTableComponent implements OnInit {
 
   deleteRow(row_obj: any): void {
     const data = this.dataSource.data
-    this.service.deleteProperty(row_obj['id']).subscribe({
+    this.service.deleteRepair(row_obj['id']).subscribe({
       next: () => {
-        this.showSuccess('Property deleted successfully.');
+        this.showSuccess('Repair deleted successfully.');
       },
       error: (err) => {
         console.log(err);
-        let firstErrorMessage = 'Error deleting property.';
+        let firstErrorMessage = 'Error deleting repair.';
         const validationErrors = err.error?.errors;
 
         if (validationErrors && typeof validationErrors === 'object') {
