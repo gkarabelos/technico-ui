@@ -1,52 +1,45 @@
-import { AfterViewInit, Component, computed, OnInit, signal, ViewChild } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
+import { AfterViewInit, Component, computed, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { DrawerComponent } from './shared/components/drawer/drawer.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatMenuTrigger } from '@angular/material/menu';
-
-
-import {MatMenuModule} from '@angular/material/menu';
-
-
-
+import { MatMenuModule } from '@angular/material/menu';
+import { RouterOutlet } from '@angular/router'; 
+import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-root',
   imports: [
-    RouterOutlet, 
-    CommonModule, 
-    MatToolbarModule, 
-    MatButtonModule, 
+    CommonModule,
+    MatToolbarModule,
+    MatButtonModule,
     MatIconModule,
     MatSidenavModule,
-    DrawerComponent,MatMenuModule
-    
+    MatMenuModule,
+    DrawerComponent,
+    RouterOutlet,
+    RouterModule
   ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements AfterViewInit {
 
-
   adminColor: string = 'orange';
-  collapsed = signal(false)
+  collapsed = signal(false);
   drawerWidth = computed(() => this.collapsed() ? '65px' : '250px');
-  isLoading = true;
+  isLoading = true;  // Controls if the login page or main content is displayed
   dropdownOpen: boolean = false; // Tracks dropdown state
-  
 
-  constructor(private router: Router){
-    
-  }
- 
+  constructor(private router: Router) {}
 
   ngAfterViewInit() {
+    // In real case, replace with actual authentication logic
     setTimeout(() => {
-      this.isLoading = false;
-    }, 200);
+      this.isLoading = false; // Set isLoading to false after the login process completes
+    }, 200);  // Adjust the timeout for the loading simulation or remove it in real case
   }
 
   toggleDropdown() {
@@ -55,6 +48,11 @@ export class AppComponent implements AfterViewInit {
 
   logout() {
     // Add your logout logic here (e.g., clearing auth tokens, redirecting, etc.)
-    this.router.navigate(['/login']); // Navigate to the login page
+    this.router.navigate(['/login']); // Navigate to the login page after logout
+
+  }
+
+  isLoginPage(): boolean {
+    return this.router.url === '/login';
   }
 }
