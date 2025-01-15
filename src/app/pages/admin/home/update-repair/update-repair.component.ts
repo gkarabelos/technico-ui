@@ -1,13 +1,14 @@
 import { AfterViewInit, Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router'; // Inject ActivatedRoute for route parameters
 import { RepairsService } from '../../../../shared/services/repairs.service';
-import { RepairsFormComponent } from "../../repairs/repairs-form/repairs-form.component"; // Import RepairsService
+import { UpdateRepairsFormComponent } from '../../repairs/update-repairs-form/update-repairs-form.component';
+
 
 @Component({
   selector: 'app-update-repair',
   templateUrl: './update-repair.component.html',
   styleUrl: './update-repair.component.scss',
-  imports: [RepairsFormComponent],
+  imports: [UpdateRepairsFormComponent],
 })
 export class UpdateRepairComponent implements AfterViewInit {
   selectedRepair: any;
