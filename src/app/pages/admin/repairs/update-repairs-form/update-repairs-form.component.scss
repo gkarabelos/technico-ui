@@ -1,0 +1,62 @@
+@use '@angular/material' as mat;
+
+.form-title {
+  font-weight: 400;
+  padding-bottom: 10px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.form-field {
+  width: 30%;
+  padding: 25px 35px 0 0;
+  @include mat.form-field-overrides((
+    outlined-focus-outline-color: rgb(251, 142, 40),
+    outlined-focus-label-text-color: rgb(251, 142, 40)
+  ));
+}
+
+.pt30 {
+  padding-top: 30px;
+}
+
+button {
+  margin-top: 16px;
+  background-color: #fe863b !important;
+  width: 14%;
+  height: 46px;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+::ng-deep .error-snackbar {
+  border-radius: 5px;
+  outline-offset: 2px;
+  --mdc-snackbar-container-color: rgb(255, 81, 81);
+  --mdc-snackbar-supporting-text-color: white;
+}
+
+::ng-deep .error-snackbar button {
+  font-family: 'Material Icons';
+  font-size: 20px;
+  color: white !important;
+  width: 1px !important;
+}
+
+::ng-deep .success-snackbar {
+  border-radius: 5px;
+  outline-offset: 2px;
+  --mdc-snackbar-container-color: rgb(40, 227, 84);
+  --mdc-snackbar-supporting-text-color: white;
+}
+
+::ng-deep .success-snackbar button {
+  font-family: 'Material Icons';
+  font-size: 20px;
+  color: white !important;
+  width: 1px !important;
+}

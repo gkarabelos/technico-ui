@@ -102,6 +102,19 @@ table {
   }
 }
 
+.status-icon {
+  font-size: 20px;
+  vertical-align: middle;
+}
+
+.active-icon {
+  color: green;
+}
+
+.inactive-icon {
+  color: red;
+}
+
 .action-column-header {
   padding-left: 48px !important;
 }
@@ -119,6 +132,13 @@ table {
   @include mat.progress-spinner-overrides((
     active-indicator-color: orange,
   ));
+}
+
+.no-properties-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 400;
 }
 
 mat-paginator {
@@ -139,4 +159,32 @@ mat-paginator {
 ::ng-deep .mat-mdc-paginator-page-size-select {
   margin: 0 8px !important;
   width: 70px !important;
+}
+
+::ng-deep .error-snackbar {
+  border-radius: 5px;
+  outline-offset: 2px;
+  --mdc-snackbar-container-color: rgb(255, 81, 81);
+  --mdc-snackbar-supporting-text-color: white;
+}
+
+::ng-deep .error-snackbar button {
+  font-family: 'Material Icons';
+  font-size: 20px;
+  color: white !important;
+  width: 1px !important;
+}
+
+::ng-deep .success-snackbar {
+  border-radius: 5px;
+  outline-offset: 2px;
+  --mdc-snackbar-container-color: rgb(40, 227, 84);
+  --mdc-snackbar-supporting-text-color: white;
+}
+
+::ng-deep .success-snackbar button {
+  font-family: 'Material Icons';
+  font-size: 20px;
+  color: white !important;
+  width: 1px !important;
 }

@@ -1,9 +1,9 @@
 export interface Property {
     id: number;
-    E9: string;
+    e9: string;
     address: string;
     yearOfConstruction: number;
-    type: string;
+    type: number;
     vatNumber: string;
 }
 
