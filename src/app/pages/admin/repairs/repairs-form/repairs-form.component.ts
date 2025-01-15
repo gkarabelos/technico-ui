@@ -9,8 +9,14 @@ import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarModule, MatSnack
 import { RepairsService } from '../../../../shared/services/repairs.service';
 import { ActivatedRoute } from '@angular/router';
 import { PropertiesService } from '../../../../shared/services/properties.service';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import {MatTimepickerModule} from '@angular/material/timepicker';
+import {provideNativeDateAdapter} from '@angular/material/core';
+
 @Component({
   selector: 'app-repairs-form',
+  providers: [provideNativeDateAdapter()],
   imports: [
       CommonModule,
       FormsModule,
@@ -20,6 +26,7 @@ import { PropertiesService } from '../../../../shared/services/properties.servic
       MatButtonModule,
       MatSelectModule,
       MatSnackBarModule,
+      MatDatepickerModule,MatNativeDateModule,MatTimepickerModule
     ],
   templateUrl: './repairs-form.component.html',
   styleUrl: './repairs-form.component.scss'
@@ -27,55 +34,61 @@ import { PropertiesService } from '../../../../shared/services/properties.servic
 export class RepairsFormComponent implements OnInit, OnChanges {
   @Input() mode: 'update' = 'update';
   @Input() repairData: any;
+  @Input() propertyData: any;
   updateRepairsForm: FormGroup;
   currentYear: number = new Date().getFullYear();
   repairId!: number;
   properties: any[] = [];
   propertyAddress: string = '';
+  propertyE9: string ='';
 
-  constructor(private fb: FormBuilder,
-    private repairsService: RepairsService,
-    private snackBar: MatSnackBar,
-    private route: ActivatedRoute,
-    private propertiesService: PropertiesService,
+  repairStatus=[
+    { value: 0, label: "Pending" },
+    { value: 1, label: "In Progress" },
+    { value: 2, label: "Complete" },
+  ];
+
+  constructor(private fb: FormBuilder,private repairsService: RepairsService,private snackBar: MatSnackBar,private route: ActivatedRoute,private propertiesService: PropertiesService,
     ){
     this.updateRepairsForm = this.fb.group({
       date: ['', Validators.required],
+      time: ['', Validators.required], // Add time control
       type: ['', Validators.required],
       description: ['', Validators.required],
-      cost: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
-    });
+      cost: ['', [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$')]],
+      status: ['', Validators.required],
+    });     
   }
 
   ngOnInit() {
    this.fetchRepairs();
   }
 
+  
+
   fetchRepairs(){
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.repairId = +id; // Convert the string to a number
     } else {
-      this.showSnackBar('Repair ID is missing from the route!', 'error');
+      this.showError('Repair ID is missing from the route!');
     }
  
     if (this.mode === 'update' && this.repairId) {
-      // Fetch repair data based on the 'id'
       this.repairsService.getRepairById(this.repairId).subscribe((data) => {
         this.repairData = data;
+        console.log("Data of prop: ",data);
         this.propertyAddress = data.propertyAddress || 'Unknown Address';
         this.propertiesService.getPropertyById(data.propertyId).subscribe((propertyData) => {
         this.propertyAddress = propertyData.address || 'Unknown Address';
+        this.propertyE9=propertyData.e9 || 'Unknown Id'
       });
-        this.populateForm(this.repairData);
+        this.populateForm(this.repairData);//vazei ta idi uparxon data sto form
       });
     }
   }
 
-  
-
   ngOnChanges(changes: SimpleChanges) {
-    console.log("i got to repair form");
     if (changes['repairData'] && changes['repairData'].currentValue) {
       this.populateForm(changes['repairData'].currentValue);
     }
@@ -83,17 +96,16 @@ export class RepairsFormComponent implements OnInit, OnChanges {
 
   populateForm(data: any) {
     const formattedDate = data.date ? this.formatDate(data.date) : '';
-    console.log("i got to repair form");
     this.updateRepairsForm.patchValue({
       date: formattedDate,
       type: data.type || '',
       description: data.description || '',
       cost: data.cost || '',
       propertyId: data.propertyId || null,
+      status: data.status !== null && data.status !== undefined ? data.status : '',
     });
   }
   
-
   private formatDate(dateString: string): string {
     const date = new Date(dateString);
     const year = date.getFullYear();
@@ -102,46 +114,94 @@ export class RepairsFormComponent implements OnInit, OnChanges {
     return `${year}-${month}-${day}`;
   }
 
+  // Function to convert AM/PM time to 24-hour format
+  updateDatetime() {
+    const time = this.updateRepairsForm.get('datetime')?.value;  // Get the Date object from the form control
+    if (time) {
+      const formattedTime = this.convertTo24HourFormat(time);
+      // Optionally, you can update the form value or make further changes to the date
+      const currentDate = this.updateRepairsForm.get('date')?.value; // Get the selected date
+      if (currentDate) {
+        // Combine date and time to form a complete ISO string
+        const combinedDateTime = `${currentDate}T${formattedTime}`;
+        this.updateRepairsForm.get('datetime')?.setValue(combinedDateTime);  // Update the datetime form control
+      }
+    }
+  }
   submitForm() {
-    console.log("i got to repair form");
     if (this.updateRepairsForm.invalid) {
       console.log("form submited");
       this.updateRepairsForm.markAllAsTouched();
       return;
     }
-
     const formValue = this.updateRepairsForm.value;
-
     if (this.mode === 'update') {
       this.handleUpdate(formValue);
     }
   }
-
+  private convertTo24HourFormat(time: Date): string {
+    let hours = time.getHours();  // Get the hours from the selected time
+    let minutes = time.getMinutes();  // Get the minutes from the selected time
+  
+    // Ensure hours and minutes are formatted to two digits
+    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:00`;
+  }
+  
+// Method to combine date and time into ISO string
+private combineDateAndTime(date: string, time: string): string {
+  // Ensure that both date and time are valid
+  if (!date || !time) {
+    return '';
+  }
+  
+  // Combine the date and time to form a proper ISO string: 'YYYY-MM-DDTHH:MM:SS'
+  return `${date}T${time}:00`;  // Append seconds (00) to ensure full time format
+}
   handleUpdate(formValue: any) {
-    // Assuming propertyId is stored and linked to repair
+    const date = formValue.date; // Date from datepicker
+    const time = formValue.time; // Time from timepicker
+    const combinedDatetime = this.combineDateAndTime(date, time);
+    console.log('Date:', date);
+    console.log('Time:', time);
+    console.log('Combined Datetime:', combinedDatetime); // Debug the combined value
     const repairData = {
       ...formValue,
       propertyId: this.repairData.propertyId, // Auto-assign the Property ID
-      date: `${formValue.date}T00:00:00`, // Convert back to ISO 8601 if necessary
+      date: combinedDatetime, // Store combined datetime
     };
-  
+
     this.repairsService.updateRepair(this.repairData.id, repairData).subscribe({
       next: () => {
-        this.showSnackBar('Repair updated successfully!', 'success');
+        this.showSuccess('Repair updated successfully!');
       },
       error: (err) => {
         console.error(err);
-        this.showSnackBar('Failed to update repair.', 'error');
+        this.showError('Failed to update repair.');
       },
     });
   }
 
-  showSnackBar(message: string, type: 'success' | 'error') {
-    this.snackBar.open(message, 'Close', {
+
+
+  //Error and Success Alert UI
+  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
+
+  showError(message: string) {
+    this.snackBar.open(message, 'close', {
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
       duration: 3000,
-      horizontalPosition: 'center',
-      verticalPosition: 'top',
-      panelClass: type === 'success' ? ['success-snackbar'] : ['error-snackbar'],
+      panelClass: ['error-snackbar'],
+    });
+  }
+
+  showSuccess(message: string) {
+    this.snackBar.open(message, 'close', {
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+      duration: 3000,
+      panelClass: ['success-snackbar'],
     });
   }
 

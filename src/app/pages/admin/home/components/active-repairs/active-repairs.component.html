@@ -5,7 +5,9 @@
       <p><mat-icon>event</mat-icon> Date: {{ repairs[0].date | date:'fullDate' }}</p>
     </div>
 
-  <mat-progress-spinner *ngIf="isLoading" mode="indeterminate"></mat-progress-spinner>
+    <div *ngIf="isLoading" class="loading-spinner">
+      <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    </div>
 
   <div *ngIf="repairs.length === 0 && !isLoading" class="no-repairs-message">
     <h3>No Repairs Available <mat-icon>sentiment_very_dissatisfied</mat-icon></h3>
@@ -30,17 +32,25 @@
                 {{ repair.ownerName || 'No Owner' }} {{ repair.ownerSurname || 'No Owner' }}
               </h2>
             </div>
-            <div class="button-container">
-              <button mat-flat-button class="status-pending-button">Pending</button>
-              <button mat-flat-button class="status-on-going-button">On Going</button>
-              <button mat-flat-button class="status-completed-button">Mark As Completed</button>
-            </div>
           </div>
 
           <div class="address-container">
-            <mat-icon>location_on</mat-icon> 
-            {{ repair.propertyAddress || 'No Address' }}
-            
+            <div class="location">
+              <mat-icon>location_on</mat-icon> 
+              {{ repair.propertyAddress || 'No Address' }}
+            </div>
+
+            <div class="button-container">
+              <button *ngIf="repair.status == 0" mat-flat-button class="status-pending-button">
+                <mat-icon>access_time</mat-icon> Pending
+              </button>
+
+              <button *ngIf="repair.status === 1" mat-flat-button class="status-progress-button">
+                <mat-icon>circle</mat-icon> In Progress
+              </button>
+              <button mat-flat-button class="status-completed-button" (click)="markAsCompleted(repair.id)"><mat-icon>done_all</mat-icon>Mark As Completed</button>
+            </div>
+                    
             <div class="icon-button-container">
               <button mat-mini-fab class="icon-button" [routerLink]="['/update-repair', repair.id]">
               <mat-icon>edit</mat-icon>
@@ -52,9 +62,7 @@
             <mat-icon>description</mat-icon>
             {{ repair.description || 'No Description' }}
           </div>
-          <div class="completion-button-container">
-            
-        </div>
+          
       </div>
     </div>
   </div>

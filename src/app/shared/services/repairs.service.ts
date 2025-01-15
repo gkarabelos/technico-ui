@@ -27,10 +27,11 @@ import { Property } from "../models/property";
     updateRepair(id: number, repairData: RepairRequest): Observable<Repair> {
         const url = `${this.apiUrl}/${id}`;
         return this.http.put<Repair>(url, repairData);
-      }
-      getPropertyById(id: number): Observable<Property> {
-          const url = `${this.apiUrl}/${id}`;
-          return this.http.get<Property>(url);
-        }
+    }
+
+    getPropertyById(id: number): Observable<Property> {
+        const url = `${this.apiUrl}/${id}`;
+        return this.http.get<Property>(url);
+    }
       
   }

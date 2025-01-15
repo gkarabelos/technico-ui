@@ -3,7 +3,7 @@ export interface Repair {
     date: Date;
     type: string;
     description: string;
-    status: string;
+    status: number;
     cost: number;
     ownerName: string;
     ownerSurname: string;
