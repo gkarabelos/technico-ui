@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './pages/admin/home/home.component';
 import { PropertiesComponent } from './pages/admin/properties/properties.component';
 import { RepairsComponent } from './pages/admin/repairs/repairs.component';
@@ -8,17 +8,23 @@ import { CreateOwnerComponent } from './pages/admin/properties/components/create
 import { UpdateOwnerComponent } from './pages/admin/properties/components/update-owner/update-owner.component';
 import { UpdateRepairComponent } from './pages/admin/home/update-repair/update-repair.component';
 import { SearchOwnerComponent } from './pages/admin/properties/components/search-owner/search-owner.component';
-
+import { NgModule } from '@angular/core';
+import { AuthGuard } from './shared/guards/auth.guard';
+import { LoginComponent } from './pages/login/login.component';
 
 export const routes: Routes = [
     {
         path: '',
-        pathMatch: 'full',
-        redirectTo: 'home'
+        redirectTo: '/login',
+        pathMatch: 'full'
     },
     {
         path: 'home',
-        component: HomeComponent
+        component: HomeComponent,
+    },
+    {
+        path: 'login',
+        component: LoginComponent
     },
     {
         path: 'properties',
@@ -53,3 +59,4 @@ export const routes: Routes = [
         component: SearchOwnerComponent 
     },
 ];
+

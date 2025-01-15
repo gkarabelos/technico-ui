@@ -118,5 +118,17 @@ mat-sidenav, mat-sidenav-content {
   .dropdown-item:hover {
     background-color: #f5f5f5; /* Hover effect */
   }
+
+  .toolbar-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  .toolbar-content-left {
+    display: flex;
+    align-items: center;
+  }
   
   
