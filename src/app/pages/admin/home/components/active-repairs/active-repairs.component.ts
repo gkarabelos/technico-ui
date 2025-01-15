@@ -9,7 +9,6 @@ import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 
-
 @Component({
   selector: 'app-active-repairs',
   imports: [CommonModule,MatIconModule,MatProgressSpinnerModule,MatButtonModule ,RouterModule,MatCardModule],
@@ -25,10 +24,8 @@ export class ActiveRepairsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getActiveRepairsForToday();
-    
   }
 
-  // Fetch active repairs for today
   getActiveRepairsForToday(): void {
     this.repairsService.getActiveRepairsForToday().subscribe({
       next: (data) => {
@@ -47,10 +44,9 @@ export class ActiveRepairsComponent implements OnInit {
     this.repairsService.getRepairById(repairId).subscribe({
       next: (repair) => {
         const updateRepair: RepairRequest = {
-          ...repair, // Include all existing repair fields
+          ...repair,
           status: 2,
         };
-        // Send the updated repair to the backend
         this.repairsService.updateRepair(repairId, updateRepair).subscribe({
           next: () => {
             console.log('Repair marked as completed.');
@@ -66,7 +62,4 @@ export class ActiveRepairsComponent implements OnInit {
       },
     });
   }
-  
-  
-  
 }

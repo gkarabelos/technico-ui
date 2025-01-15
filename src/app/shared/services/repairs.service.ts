@@ -13,7 +13,6 @@ import { Property } from "../models/property";
   
     constructor(private http: HttpClient) {}
   
-
     getActiveRepairsForToday(): Observable<Repair[]> {
         const url = `${this.apiUrl}/today`;
         return this.http.get<Repair[]>(url);
@@ -33,5 +32,4 @@ import { Property } from "../models/property";
         const url = `${this.apiUrl}/${id}`;
         return this.http.get<Property>(url);
     }
-      
   }
