@@ -11,14 +11,3 @@
     font-weight: 700;
     font-style: normal;
   }
-
-  @font-face {
-    font-family: 'Raleway';
-    src: url('/assets/fonts/Raleway-Regular.ttf') format('truetype');
-    font-weight: 400;
-    font-style: normal;
-}
-
-* {
-    font-family: 'Raleway', sans-serif; /* Add this if Raleway should be the default */
-}
