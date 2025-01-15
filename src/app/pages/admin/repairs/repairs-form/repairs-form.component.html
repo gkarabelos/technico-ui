@@ -6,31 +6,12 @@
 <form [formGroup]="updateRepairsForm" (ngSubmit)="submitForm()">
   <div class="row">
     <mat-form-field class="form-field">
-      <mat-label>Cost</mat-label>
-      <input matInput placeholder="Enter repair cost" formControlName="cost" />
-      <mat-error *ngIf="updateRepairsForm.get('cost')?.hasError('required')">
-        Cost is required
-      </mat-error>
-    </mat-form-field>
-
-    <mat-form-field class="form-field">
       <mat-label>Description</mat-label>
       <input matInput placeholder="Enter repair description" formControlName="description" />
       <mat-error *ngIf="updateRepairsForm.get('description')?.hasError('required')">
         Description is required
       </mat-error>
     </mat-form-field>
-  </div>
-
-  <div class="row">
-    <mat-form-field class="form-field">
-      <mat-label>Date of Repair</mat-label>
-      <input matInput type="date" placeholder="Select date of repair" formControlName="date" />
-      <mat-error *ngIf="updateRepairsForm.get('date')?.hasError('required')">
-        Date of repair is required
-      </mat-error>
-    </mat-form-field>
-
     <mat-form-field class="form-field">
       <mat-label>Type of Repair</mat-label>
       <mat-select formControlName="type">
@@ -43,6 +24,50 @@
         Type of repair is required
       </mat-error>
     </mat-form-field>
+
+    <mat-form-field class="form-field">
+      <mat-label>Status</mat-label>
+      <mat-select formControlName="status">
+        <mat-option *ngFor="let status of repairStatus" [value]="status.value">
+          {{ status.label }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="updateRepairsForm.get('status')?.hasError('required')">
+        Status is required
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="row">
+    <mat-form-field class="form-field">
+      <mat-label>Date of Repair</mat-label>
+      <input
+        matInput
+        type="date"
+        placeholder="Select date of repair"
+        formControlName="date"
+      />
+      <mat-error *ngIf="updateRepairsForm.get('date')?.hasError('required')">
+        Date of repair is required
+      </mat-error>
+    </mat-form-field>
+   
+    <mat-form-field class="form-field">
+      <mat-label>Time of Repair</mat-label>
+      <input
+        matInput
+        type="time"
+        placeholder="Select time of repair"
+        formControlName="time"
+      />
+      <mat-error *ngIf="updateRepairsForm.get('time')?.hasError('required')">
+        Time of repair is required
+      </mat-error>
+    </mat-form-field>
+    
+
+    
+
   </div>
 
   <div class="row pt30">

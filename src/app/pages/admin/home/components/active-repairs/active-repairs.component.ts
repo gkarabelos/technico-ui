@@ -3,7 +3,7 @@ import { RepairsService } from '../../../../../shared/services/repairs.service';
 import { Repair, RepairRequest } from '../../../../../shared/models/repair';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
-
+import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
@@ -12,7 +12,7 @@ import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-active-repairs',
-  imports: [CommonModule,MatIconModule,MatProgressSpinnerModule,MatButtonModule ,RouterModule,],
+  imports: [CommonModule,MatIconModule,MatProgressSpinnerModule,MatButtonModule ,RouterModule,MatCardModule],
   templateUrl: './active-repairs.component.html',
   styleUrl: './active-repairs.component.scss'
 })
