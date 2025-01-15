@@ -24,6 +24,7 @@ export const routes: Routes = [
     {
         path: 'home',
         component: HomeComponent,
+        canActivate: [AuthGuard] 
     },
     {
         path: 'login',
@@ -31,43 +32,53 @@ export const routes: Routes = [
     },
     {
         path: 'properties',
-        component: PropertiesComponent
+        component: PropertiesComponent,
+        canActivate: [AuthGuard] 
     },
     {
         path: 'repairs',
-        component: RepairsComponent
+        component: RepairsComponent,
+        canActivate: [AuthGuard] 
     },
     { 
         path: 'create-property', 
-        component: CreatePropertyComponent 
+        component: CreatePropertyComponent,
+        canActivate: [AuthGuard]  
     },
     { 
         path: 'update-property/:id', 
-        component: UpdatePropertyComponent 
+        component: UpdatePropertyComponent,
+        canActivate: [AuthGuard]  
     },
     {
         path:'create-repair',
-        component: CreateRepairComponent
+        component: CreateRepairComponent,
+        canActivate: [AuthGuard] 
     },
     {
         path: 'repair-form',
-        component: RepairFormComponent
+        component: RepairFormComponent,
+        canActivate: [AuthGuard] 
     },
     { 
         path: 'create-owner', 
-        component: CreateOwnerComponent 
+        component: CreateOwnerComponent,
+        canActivate: [AuthGuard]  
     },
     { 
         path: 'update-owner/:id', 
-        component: UpdateOwnerComponent 
+        component: UpdateOwnerComponent,
+        canActivate: [AuthGuard]  
     },
     {
         path: 'update-repair/:id',
-        component: UpdateRepairComponent
+        component: UpdateRepairComponent,
+        canActivate: [AuthGuard] 
     },
     { 
         path: 'search-owner', 
-        component: SearchOwnerComponent 
+        component: SearchOwnerComponent,
+        canActivate: [AuthGuard]  
     },
 
 ];
