@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Owner, OwnerRequest } from '../models/owner';
@@ -34,5 +34,19 @@ export class OwnersService {
   deleteOwner(id: number): Observable<void> {
     const url = `${this.apiUrl}/${id}`;
     return this.http.delete<void>(url);
+  }
+
+  getFilteredOwners(vatNumber?: string, email?: string): Observable<Owner[]> {
+    let params = new HttpParams();
+
+    if (vatNumber) {
+      params = params.set('vatNumber', vatNumber);
+    }
+
+    if (email) {
+      params = params.set('email', email);
+    }
+
+    return this.http.get<Owner[]>(`${this.apiUrl}/filter`, { params });
   }
 }

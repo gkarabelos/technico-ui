@@ -10,6 +10,8 @@ import { UpdateOwnerComponent } from './pages/admin/properties/components/update
 import { UpdateRepairComponent } from './pages/admin/home/update-repair/update-repair.component';
 import { NgModule } from '@angular/core';
 import { AuthGuard } from './shared/auth.guard';
+import { SearchOwnerComponent } from './pages/admin/properties/components/search-owner/search-owner.component';
+
 
 export const routes: Routes = [
     {
@@ -51,6 +53,15 @@ export const routes: Routes = [
       component: UpdateOwnerComponent
     },
     {
+        path: 'update-repair/:id',
+        component: UpdateRepairComponent
+    },
+    { 
+        path: 'search-owner', 
+        component: SearchOwnerComponent 
+    },
+];
+
       path: 'update-repair/:id', // Update a repair by ID
       component: UpdateRepairComponent
     }

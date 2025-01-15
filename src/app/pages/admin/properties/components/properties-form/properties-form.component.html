@@ -47,6 +47,12 @@
         Owner's VAT Number is required
       </mat-error>
     </mat-form-field>
+
+    @if (mode == 'update') {
+      <mat-checkbox formControlName="isActive">
+        Is Active
+      </mat-checkbox>
+    }
   </div>
 
   <div class="row pt30">

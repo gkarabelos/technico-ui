@@ -1,4 +1,4 @@
-export function mapTypeFromBackend(status: number): "Pending" | "In Progress" | "Complete" {
+export function mapStatusFromBackend(status: number): "Pending" | "In Progress" | "Complete" {
     switch (status) {
         case 0:
             return "Pending";
