@@ -8,7 +8,7 @@ export interface Property {
 }
 
 export interface PropertyRequest {
-    propertyId: string;
+    E9: string;
     address: string;
     yearOfConstruction: number;
     type: string;

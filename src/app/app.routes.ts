@@ -4,10 +4,13 @@ import { PropertiesComponent } from './pages/admin/properties/properties.compone
 import { RepairsComponent } from './pages/admin/repairs/repairs.component';
 import { CreatePropertyComponent } from './pages/admin/properties/components/create-property/create-property.component';
 import { UpdatePropertyComponent } from './pages/admin/properties/components/update-property/update-property.component';
+import { CreateRepairComponent } from './pages/admin/repairs/components/create-repair/create-repair.component';
+import { RepairFormComponent } from './pages/admin/repairs/components/repair-form/repair-form.component';
 import { CreateOwnerComponent } from './pages/admin/properties/components/create-owner/create-owner.component';
 import { UpdateOwnerComponent } from './pages/admin/properties/components/update-owner/update-owner.component';
 import { UpdateRepairComponent } from './pages/admin/home/update-repair/update-repair.component';
 import { SearchOwnerComponent } from './pages/admin/properties/components/search-owner/search-owner.component';
+
 
 
 export const routes: Routes = [
@@ -36,6 +39,16 @@ export const routes: Routes = [
         path: 'update-property/:id', 
         component: UpdatePropertyComponent 
     },
+
+    {
+        path:'create-repair',
+        component: CreateRepairComponent
+    },
+    {
+        path: 'repair-form',
+        component: RepairFormComponent
+    }
+
     { 
         path: 'create-owner', 
         component: CreateOwnerComponent 
@@ -52,4 +65,5 @@ export const routes: Routes = [
         path: 'search-owner', 
         component: SearchOwnerComponent 
     },
+
 ];
