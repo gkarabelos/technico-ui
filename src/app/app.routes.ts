@@ -45,7 +45,6 @@ export const routes: Routes = [
         path: 'update-property/:id', 
         component: UpdatePropertyComponent 
     },
-
     {
         path:'create-repair',
         component: CreateRepairComponent
@@ -53,8 +52,7 @@ export const routes: Routes = [
     {
         path: 'repair-form',
         component: RepairFormComponent
-    }
-
+    },
     { 
         path: 'create-owner', 
         component: CreateOwnerComponent 

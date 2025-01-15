@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { environment } from "../../../environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { Repair, RepairRequest } from "../models/repair";
+import { CreateRepairRequest, Repair, UpdateRepairRequest } from "../models/repair";
 import { e9ValidationResponse } from "../models/e9ValidationResponse";
 import { Property } from "../models/property";
 import { PaginatedResult } from "../models/pagination";
@@ -29,7 +29,7 @@ import { PaginatedResult } from "../models/pagination";
         return this.http.get<e9ValidationResponse>(url);
       }
 
-    createRepair(repairData: RepairRequest): Observable<Repair> {
+    createRepair(repairData: CreateRepairRequest): Observable<Repair> {
           return this.http.post<Repair>(this.apiUrl, repairData);
         }
 
@@ -48,7 +48,7 @@ import { PaginatedResult } from "../models/pagination";
       return this.http.get<any>(url);
     }
 
-    updateRepair(id: number, repairData: RepairRequest): Observable<Repair> {
+    updateRepair(id: number, repairData: UpdateRepairRequest): Observable<Repair> {
         const url = `${this.apiUrl}/${id}`;
         return this.http.put<Repair>(url, repairData);
     }
