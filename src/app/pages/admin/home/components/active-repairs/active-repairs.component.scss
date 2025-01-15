@@ -13,7 +13,6 @@ h2 {
   text-align: center;
 }
 
-/* Active Repairs Styles */
 .active-repairs-page {
   padding: 20px 50px 50px 50px;
     background-color: #faf9fd;
@@ -35,36 +34,35 @@ h2 {
 .date-container mat-icon{
   font-weight:lighter;
   font-size:20px;
-  vertical-align: middle; /* Aligns the icon vertically */
+  vertical-align: middle;
 }
 
 .view-more {
-  display: flex; 
-  justify-content: flex-end; 
-  margin-right: 0; /* Ensure no unintended margin shifts it */
-  width: 100%; /* Ensures it spans the container width */
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 0;
+  width: 100%;
 }
 
 .view-more button {
-  background: none; /* Removes background from the button */
-  border: none; /* Removes border */
-  color: #fe863b; /* Text and icon color */
-  font-size: 16px; /* Font size for the button */
-  display: flex; /* Aligns text and icon horizontally */
-  align-items: center; /* Centers content vertically */
-  cursor: pointer; /* Pointer cursor */
+  background: none;
+  border: none;
+  color: #fe863b;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 }
 
 
 .view-more button mat-icon {
-  margin-right: 8px; 
+  margin-right: 8px;
 }
 
 .view-more button:hover {
-  color: #d16303; 
+  color: #d16303;
 }
 
-/* Repairs List Styles */
 .repair-list {
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 20px;
@@ -89,7 +87,7 @@ h2 {
 }
 
 .repair-header {
-  display: flex; 
+  display: flex;
   flex-direction: column;
 }
 
@@ -100,7 +98,7 @@ h2 {
 
 .repair-type-owner {
   display: flex;
-  align-items: center; 
+  align-items: center;
   gap: 8px;
 }
 
@@ -132,7 +130,7 @@ h2 {
 }
 
 .repair-description mat-icon {
-  margin-left: 2px;  
+  margin-left: 2px;
   font-size: 19px;
 }
 
@@ -149,7 +147,7 @@ h2 {
 
 .button-container {
   display: flex;
-  gap: 15px; 
+  gap: 15px;
   margin-left: 30px;
   border-radius: 5px;
 }

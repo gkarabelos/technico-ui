@@ -50,7 +50,7 @@ export class ActiveRepairsComponent implements OnInit {
         this.repairsService.updateRepair(repairId, updateRepair).subscribe({
           next: () => {
             console.log('Repair marked as completed.');
-            this.repairs = this.repairs.filter((repair) => repair.id !== repairId);// afairesh tou owner apo to active repair list 
+            this.repairs = this.repairs.filter((repair) => repair.id !== repairId);
           },
           error: (err) => {
             console.error('Error updating repair status:', err);
