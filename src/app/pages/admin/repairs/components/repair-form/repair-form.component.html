@@ -1,0 +1,70 @@
+<h1 class="form-title">{{ mode === 'create' ? 'Add Repair' : 'Update Repair' }}</h1>
+<form [formGroup]="createRepairForm" (ngSubmit)="submitForm()">
+
+<div class="row">
+    <mat-form-field class="form-field">
+      <mat-label>E9</mat-label>
+      <input matInput placeholder="Enter E9" formControlName="E9" />
+      <mat-error *ngIf="createRepairForm.get('E9')?.hasError('required')">
+        E9 is required
+      </mat-error>
+    </mat-form-field>
+
+
+    <mat-form-field class="form-field">
+        <mat-label> Type of Repair</mat-label>
+        <mat-select formControlName="type">
+            <mat-option value="Electrical">Electrical</mat-option>
+            <mat-option value="Plumbing">Plumbing</mat-option>
+            <mat-option value="Painting">Painting</mat-option>
+            <mat-option value="Rennovation">Rennovation</mat-option>
+          </mat-select>
+          <mat-error *ngIf="createRepairForm.get('type')?.hasError('required')">
+            Repair Type is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="form-field">
+            <mat-label>Description</mat-label>
+            <input matInput placeholder="Enter repair description" formControlName="description" />
+            <mat-error *ngIf="createRepairForm.get('description')?.hasError('required')">
+              Description is required
+            </mat-error>
+          </mat-form-field>
+</div>
+<div class="row">
+    <mat-form-field class="form-field">
+      <mat-label>Cost</mat-label>
+      <input matInput placeholder="Enter repair cost" formControlName="cost" />
+      <mat-error *ngIf="createRepairForm.get('cost')?.hasError('required')">
+        Cost is required
+      </mat-error>
+    </mat-form-field>
+
+    
+    <mat-form-field class="form-field">
+        <mat-label>Choose a date</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="date">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+       
+       
+        <mat-form-field class="form-field">
+          <mat-label>Time of Repair</mat-label>
+          <input matInput type="time" placeholder="Select time of repair" formControlName="time"/>
+          <mat-error *ngIf="createRepairForm.get('time')?.hasError('required')">
+            Time of repair is required
+          </mat-error>
+        </mat-form-field>
+</div>
+
+    <div class="row pt30">
+        <button mat-flat-button type="submit">
+          {{ mode === 'create' ? 'Submit' : 'create' }}
+        </button>
+      </div>
+    </form>
+
+  

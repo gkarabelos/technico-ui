@@ -99,7 +99,7 @@ export class PropertiesFormComponent implements OnInit, OnChanges {
     }
   }
 
-  handleCreate(formValue: any) {
+  handleCreate(formValue: any) {                                  
     const vatNumber = formValue.ownerVatNumber;
 
     this.dataService.validateOwnerVat(vatNumber).subscribe({

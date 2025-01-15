@@ -4,6 +4,8 @@ import { PropertiesComponent } from './pages/admin/properties/properties.compone
 import { RepairsComponent } from './pages/admin/repairs/repairs.component';
 import { CreatePropertyComponent } from './pages/admin/properties/components/create-property/create-property.component';
 import { UpdatePropertyComponent } from './pages/admin/properties/components/update-property/update-property.component';
+import { CreateRepairComponent } from './pages/admin/repairs/components/create-repair/create-repair.component';
+import { RepairFormComponent } from './pages/admin/repairs/components/repair-form/repair-form.component';
 
 
 export const routes: Routes = [
@@ -31,5 +33,13 @@ export const routes: Routes = [
     { 
         path: 'update-property/:id', 
         component: UpdatePropertyComponent 
+    },
+    {
+        path:'create-repair',
+        component: CreateRepairComponent
+    },
+    {
+        path: 'repair-form',
+        component: RepairFormComponent
     }
 ];
