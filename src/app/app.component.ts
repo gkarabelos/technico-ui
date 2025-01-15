@@ -51,7 +51,6 @@ export class AppComponent implements AfterViewInit {
   }
 
   logout() {
-    // Add your logout logic here (e.g., clearing auth tokens, redirecting, etc.)
-    this.router.navigate(['/login']); // Navigate to the login page
+    this.router.navigate(['/login']);
   }
 }

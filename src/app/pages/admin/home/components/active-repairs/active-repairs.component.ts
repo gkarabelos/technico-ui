@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RepairsService } from '../../../../../shared/services/repairs.service';
-import { Repair, RepairRequest } from '../../../../../shared/models/repair';
+import { Repair, UpdateRepairRequest } from '../../../../../shared/models/repair';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
@@ -43,14 +43,14 @@ export class ActiveRepairsComponent implements OnInit {
   markAsCompleted(repairId: number): void {
     this.repairsService.getRepairById(repairId).subscribe({
       next: (repair) => {
-        const updateRepair: RepairRequest = {
+        const updateRepair: UpdateRepairRequest = {
           ...repair,
           status: 2,
         };
         this.repairsService.updateRepair(repairId, updateRepair).subscribe({
           next: () => {
             console.log('Repair marked as completed.');
-            this.repairs = this.repairs.filter((repair) => repair.id !== repairId);// afairesh tou owner apo to active repair list 
+            this.repairs = this.repairs.filter((repair) => repair.id !== repairId);
           },
           error: (err) => {
             console.error('Error updating repair status:', err);

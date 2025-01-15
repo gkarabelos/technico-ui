@@ -56,7 +56,7 @@ export class UpdateRepairsFormComponent implements OnInit, OnChanges {
     ){
     this.updateRepairsForm = this.fb.group({
       date: ['', Validators.required],
-      time: ['', Validators.required], // Add time control
+      time: ['', Validators.required],
       type: ['', Validators.required],
       description: ['', Validators.required],
       cost: ['', [Validators.required, , Validators.pattern('^\\d+(\\.\\d{1,2})?$')]],
@@ -79,13 +79,13 @@ export class UpdateRepairsFormComponent implements OnInit, OnChanges {
     if (this.mode === 'update' && this.repairId) {
       this.repairsService.getRepairById(this.repairId).subscribe((data) => {
         this.repairData = data;
-        console.log("Data of prop: ",data);
+        console.log("Data of propert: ",data);
         this.propertyAddress = data.propertyAddress || 'Unknown Address';
         this.propertiesService.getPropertyById(data.propertyId).subscribe((propertyData) => {
         this.propertyAddress = propertyData.address || 'Unknown Address';
         this.propertyE9=propertyData.e9 || 'Unknown Id'
       });
-        this.populateForm(this.repairData);//vazei ta idi uparxon data sto form
+        this.populateForm(this.repairData);
       });
     }
   }
@@ -97,10 +97,12 @@ export class UpdateRepairsFormComponent implements OnInit, OnChanges {
   }
 
   populateForm(data: any) {
-    console.log("dddate: ",data.date)
+    console.log("date: ",data.date)
     const formattedDate = data.date ? this.formatDate(data.date) : '';
+    const formattedTime = data.date ? this.formatTimeForInput(data.date) : '';
     this.updateRepairsForm.patchValue({
       date: formattedDate,
+      time: formattedTime,
       type: data.type || '',
       description: data.description || '',
       cost: data.cost || '',
@@ -115,6 +117,14 @@ export class UpdateRepairsFormComponent implements OnInit, OnChanges {
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
+  }
+  
+
+  private formatTimeForInput(datetimeString: string): string {
+    const date = new Date(datetimeString);
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${hours}:${minutes}`;
   }
 
   updateDatetime() {
@@ -143,10 +153,9 @@ export class UpdateRepairsFormComponent implements OnInit, OnChanges {
   }
 
   private convertTo24HourFormat(time: Date): string {
-    let hours = time.getHours();  // Get the hours from the selected time
-    let minutes = time.getMinutes();  // Get the minutes from the selected time
+    let hours = time.getHours();
+    let minutes = time.getMinutes();
   
-    // Ensure hours and minutes are formatted to two digits
     return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:00`;
   }
   

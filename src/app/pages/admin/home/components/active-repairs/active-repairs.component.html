@@ -41,11 +41,11 @@
             </div>
 
             <div class="button-container">
-              <button *ngIf="repair.status == 0" mat-flat-button class="status-pending-button">
+              <button *ngIf="repair.status == 0" mat-flat-button class="status-pending-button" disabled>
                 <mat-icon>access_time</mat-icon> Pending
               </button>
 
-              <button *ngIf="repair.status === 1" mat-flat-button class="status-progress-button">
+              <button *ngIf="repair.status === 1" mat-flat-button class="status-progress-button" disabled>
                 <mat-icon>circle</mat-icon> In Progress
               </button>
               <button mat-flat-button class="status-completed-button" (click)="markAsCompleted(repair.id)"><mat-icon>done_all</mat-icon>Mark As Completed</button>
