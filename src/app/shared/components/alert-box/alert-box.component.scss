@@ -1,0 +1,8 @@
+.dialog-btn {
+  color: white;
+  background-color: rgb(251, 142, 40);
+}
+
+::ng-deep .mat-mdc-dialog-content {
+  padding: var(--mat-dialog-with-actions-content-padding, 8px 20px 10px 20px) !important;
+}

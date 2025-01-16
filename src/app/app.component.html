@@ -1,0 +1,32 @@
+<ng-container *ngIf="!isLoginPage()">
+  <mat-toolbar>
+    <button mat-icon-button (click)="collapsed.set(!collapsed())">
+        <mat-icon class="menu">menu</mat-icon>
+    </button>
+    <h1 class="title">Technico</h1>
+
+    <div class="admin-container">
+        <button class="admin-button" (click)="toggleDropdown()">
+          <span>
+            <mat-icon [style.color]="adminColor">account_circle</mat-icon>
+            Admin
+            <mat-icon [class.dropdown-open]="dropdownOpen">keyboard_arrow_down</mat-icon>
+          </span>
+        </button>
+        <div class="dropdown-menu" *ngIf="dropdownOpen">
+          <button class="dropdown-item" (click)="logout()"><mat-icon >logout</mat-icon>Logout</button>
+        </div>
+      </div>
+     
+</mat-toolbar>
+<mat-sidenav-container>
+    <mat-sidenav opened mode="side" [style.width]="drawerWidth()">
+        <app-drawer [collapsed]="collapsed()"></app-drawer>
+    </mat-sidenav>
+    <mat-sidenav-content class="content" [style.margin-left]="drawerWidth()">
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>
+</ng-container>
+ 
+<router-outlet *ngIf="isLoginPage()"></router-outlet>

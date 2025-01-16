@@ -1,0 +1,74 @@
+<div class="active-repairs-page">
+  <div class="title">
+    <h2>Active Repairs for Today </h2>
+    <div *ngIf="repairs.length > 0" class="date-container">
+      <p><mat-icon>event</mat-icon> Date: {{ repairs[0].date | date:'fullDate' }}</p>
+    </div>
+
+    <div *ngIf="isLoading" class="loading-spinner">
+      <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    </div>
+
+  <div *ngIf="repairs.length === 0 && !isLoading" class="no-repairs-message">
+    <h3>No Repairs Available <mat-icon>sentiment_very_dissatisfied</mat-icon></h3>
+    <p>You currently do not have any repairs for your property.</p>
+  </div>
+
+  <div *ngIf="repairs.length > 0" class="repair-list">
+    <div class="view-more">
+      <button routerLink="/repairs">View more<mat-icon>keyboard_arrow_right</mat-icon></button>
+    </div>
+    <div *ngFor="let repair of repairs" class="repair-card">
+      <div class="repair-content">
+        <div class="repair-header">
+          <div class="repair-type-owner">
+            <h2>
+              <mat-icon>build</mat-icon>
+              {{ repair.type }} 
+            </h2>
+            <div class="owner">
+              <h2>
+                <mat-icon>person</mat-icon>
+                {{ repair.ownerName || 'No Owner' }} {{ repair.ownerSurname || 'No Owner' }}
+              </h2>
+            </div>
+          </div>
+
+          <div class="address-container">
+            <div class="location">
+              <mat-icon>location_on</mat-icon> 
+              {{ repair.propertyAddress || 'No Address' }}
+            </div>
+
+            <div class="button-container">
+              <button *ngIf="repair.status == 0" mat-flat-button class="status-pending-button" disabled>
+                <mat-icon>access_time</mat-icon> Pending
+              </button>
+
+              <button *ngIf="repair.status === 1" mat-flat-button class="status-progress-button" disabled>
+                <mat-icon>circle</mat-icon> In Progress
+              </button>
+              <button mat-flat-button class="status-completed-button" (click)="markAsCompleted(repair.id)"><mat-icon>done_all</mat-icon>Mark As Completed</button>
+            </div>
+                    
+            <div class="icon-button-container">
+              <button mat-mini-fab class="icon-button" [routerLink]="['/update-repair', repair.id]">
+              <mat-icon>edit</mat-icon>
+              </button>
+            </div>
+          </div>
+
+          <div class="date-time">
+            <mat-icon>schedule</mat-icon> 
+            {{ repair.date | date: 'shortTime' }}
+          </div>
+
+          <div class="repair-description">
+            <mat-icon>description</mat-icon>
+            {{ repair.description || 'No Description' }}
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+  

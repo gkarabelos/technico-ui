@@ -1,0 +1,15 @@
+@use "@angular/material" as mat;
+
+@include mat.core();
+
+$compact-theme: mat.define-theme(
+  (
+    density: (
+      scale: -2
+    )
+  )
+);
+
+:root {
+  @include mat.form-field-density($compact-theme);
+}
