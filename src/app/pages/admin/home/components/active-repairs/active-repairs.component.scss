@@ -190,3 +190,20 @@ h2 {
     active-indicator-color: orange,
   ));
 }
+
+.date-time {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  color: #5d6164;
+  margin-top: -8px;
+  margin-bottom: 7px;
+  margin-left: 2px;
+}
+
+.date-time mat-icon {
+  font-size: 20px;
+  margin-right: 5px;
+  vertical-align: middle;
+  padding-top: 5px;
+}

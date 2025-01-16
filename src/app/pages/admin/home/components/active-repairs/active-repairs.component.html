@@ -58,6 +58,11 @@
             </div>
           </div>
 
+          <div class="date-time">
+            <mat-icon>schedule</mat-icon> 
+            {{ repair.date | date: 'shortTime' }}
+          </div>
+
           <div class="repair-description">
             <mat-icon>description</mat-icon>
             {{ repair.description || 'No Description' }}
