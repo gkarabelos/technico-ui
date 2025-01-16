@@ -18,22 +18,26 @@ export class AuthService {
   private isLoggedIn = false;
 
   constructor(private http: HttpClient) {}
-  
+
   login(credentials: { email: string; password: string }): Observable<LoginResponse> {
-    return this.http.post< LoginResponse >(this.apiUrl, null, {params: new HttpParams().set('email',credentials.email).set('password', credentials.password)}).pipe(
+    return this.http.post<LoginResponse>(this.apiUrl, null, {
+      params: new HttpParams()
+        .set('email', credentials.email)
+        .set('password', credentials.password),
+    }).pipe(
       tap((response) => {
-        console.log("Login response:",response)
+        console.log('Login response:', response);
         if (response.isValid) {
           localStorage.setItem('isLoggedIn', 'true');
+        } else {
+          localStorage.setItem('isLoggedIn', 'false');
         }
       }),
       catchError((err) => {
-        console.log("Login response:",err)
-        localStorage.setItem('isLoggedIn', 'false');
-        return of({isValid:false, message: 'Login failed due to an error.'});
+        console.log('Login error:', err);
+        return of({ isValid: false, message: 'Login failed due to an error.' });
       })
     );
-  
   }
 
   logout(): void {
